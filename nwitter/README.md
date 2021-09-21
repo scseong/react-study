@@ -16,9 +16,27 @@ why firebase?
 
 - real time communication
 - authentication
-- 	email, ID/PW, google/github/
+- 	email, ID/PW, google/github/facebook
+- 	
 
 ## settings
-`npm start`
+`npm start` 
 
 http://localhost:3000
+
+
+
+**Router Setup**
+
+```
+📂 src
+ㄴ 📂 components
+   ㄴ App
+   ㄴ Router
+ㄴ 📂 routes
+   ㄴ Auth
+   ㄴ EditProfile
+   ㄴ Home
+   ㄴ Profile
+```
+
