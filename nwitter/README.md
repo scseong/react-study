@@ -14,10 +14,9 @@ why firebase?
 
 **Function**
 
-- real time communication
+- real time 
 - authentication
-- 	email, ID/PW, google/github/facebook
-- 	
+  - email, ID/PW, google/github/facebook
 
 ## settings
 `npm start` 
