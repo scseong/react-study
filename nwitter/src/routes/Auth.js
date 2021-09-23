@@ -39,6 +39,7 @@ const Auth = () => {
       } else {
         data = await signInWithEmailAndPassword(authService, email, password);
       }
+      console.log(data);
     } catch (error) {
       setError(error.message);
     }
@@ -56,11 +57,11 @@ const Auth = () => {
     if (name === 'google') {
       provider = new GoogleAuthProvider();
       const result = await signInWithPopup(authService, provider);
-      const credential = GoogleAuthProvider.credentialFromResult(result);
+      GoogleAuthProvider.credentialFromResult(result);
     } else if (name === 'github') {
       provider = new GithubAuthProvider();
       const result = await signInWithPopup(authService, provider);
-      const credential = GithubAuthProvider.credentialFromResult(result);
+      GithubAuthProvider.credentialFromResult(result);
     }
   };
 
