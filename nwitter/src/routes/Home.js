@@ -8,7 +8,7 @@ import { v4 as uuidv4 } from 'uuid';
 const Home = ({ userObj }) => {
   const [nweet, setNweet] = useState('');
   const [nweets, setNweets] = useState([]);
-  const [attachment, setAttachment] = useState(null);
+  const [attachment, setAttachment] = useState('');
 
   useEffect(() => {
     const q = query(collection(dbService, 'nweets'));
@@ -71,7 +71,7 @@ const Home = ({ userObj }) => {
   };
 
   const onClearAttachment = () => {
-    setAttachment(null);
+    setAttachment('');
   };
 
   return (
