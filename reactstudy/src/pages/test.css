@@ -1,0 +1,14 @@
+.ant-btn-primary {
+  font-weight: bold;
+  background-color: #3d5afe;
+}
+
+.ant-btn {
+  margin: 8px;
+  width: 100%;
+}
+
+.ant-input,
+.ant-input-password {
+  margin: 8px;
+}

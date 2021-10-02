@@ -1,20 +1,11 @@
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 
-const useInput = (initialValue, validator) => {
+const useInput = (initialValue) => {
   const [value, setValue] = useState(initialValue);
-  const onChange = (event) => {
-    const {
-      target: { value },
-    } = event;
-    let willUpdate = true;
-    if (typeof validator === 'function') {
-      willUpdate = validator(value);
-    }
-    if (willUpdate) {
-      setValue(value);
-    }
-  };
-  return [value, onChange];
+  const handler = useCallback((e) => {
+    setValue(e.target.value);
+  }, []);
+  return [value, handler, setValue];
 };
 
 export default useInput;
