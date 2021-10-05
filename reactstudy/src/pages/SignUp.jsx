@@ -1,8 +1,8 @@
 import React, { useState, useCallback, useRef, useEffect } from 'react';
-import { Header, Form, Error, MyButton } from '@pages/styles';
+import { Header, Form, Error, MyButton, MyInput, MyInputPassword } from '@pages/styles';
 import axios from 'axios';
 
-import { Input } from 'antd';
+import { Input, Button } from 'antd';
 
 const SignUp = () => {
   const [email, setEmail] = useState('');
@@ -15,6 +15,7 @@ const SignUp = () => {
   const [mismatchError, setMissmatchError] = useState(false);
 
   const [nickname, setNickname] = useState('');
+  const [phone, setPhone] = useState('');
   const [signUpError, setSignUpError] = useState('');
   const [signUpSuccess, setSignUpSuccess] = useState(false);
 
@@ -45,12 +46,13 @@ const SignUp = () => {
     [password],
   );
 
-  const onChangeNickname = useCallback(
-    (e) => {
-      setNickname(e.target.value);
-    },
-    [nickname],
-  );
+  const onChangeNickname = useCallback((e) => {
+    setNickname(e.target.value);
+  }, []);
+
+  const onChangePhone = useCallback((e) => {
+    setPhone(e.target.value);
+  }, []);
 
   const onSubmit = useCallback(
     (e) => {
@@ -84,7 +86,7 @@ const SignUp = () => {
         <section>
           <Form onSubmit={onSubmit}>
             <label id="email-label">
-              <Input
+              <MyInput
                 type="email"
                 id="email"
                 name="email"
@@ -93,11 +95,12 @@ const SignUp = () => {
                 placeholder="이메일 입력"
                 required
                 ref={test}
+                autoComplete="off"
               />
               {emailConfirm && <Error>이메일을 입력해주세요</Error>}
             </label>
             <label id="password-label">
-              <Input.Password
+              <MyInputPassword
                 type="password"
                 id="password"
                 name="password"
@@ -108,7 +111,7 @@ const SignUp = () => {
               {passwordConfirm && <Error>비밀번호를 입력해주세요</Error>}
             </label>
             <label id="password-check-label">
-              <Input.Password
+              <MyInputPassword
                 type="password"
                 id="password-check"
                 name="password-check"
@@ -120,7 +123,7 @@ const SignUp = () => {
               {mismatchError && <Error>비밀번호가 일치하지 않습니다.</Error>}
             </label>
             <label id="nickname-label">
-              <Input
+              <MyInput
                 type="text"
                 id="nickname"
                 name="nickname"
@@ -130,11 +133,23 @@ const SignUp = () => {
                 required
               />
             </label>
+            <label id="phone-label">
+              <MyInput
+                type="text"
+                id="phone"
+                name="phone"
+                value={phone}
+                onChange={onChangePhone}
+                placeholder="휴대폰 번호(숫자만 입력)"
+                required
+              />
+              <Button>인증번호</Button>
+            </label>
             <MyButton htmlType="submit" type="primary" size="large">
               회원가입
             </MyButton>
           </Form>
-          {signUpError && <span>{signUpError}</span>}
+          {signUpError && <Error>{signUpError}</Error>}
         </section>
       </main>
     </>

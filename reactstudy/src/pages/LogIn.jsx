@@ -1,5 +1,6 @@
 import React, { useCallback } from 'react';
 import useInput from '@hooks/useInput';
+import Google from '@components/Google';
 
 const LogIn = () => {
   const [email, onChangeEmail] = useInput('');
@@ -29,6 +30,7 @@ const LogIn = () => {
             </label>
             <button type="sumbit">로그인</button>
           </form>
+          <Google />
         </section>
       </main>
     </>
