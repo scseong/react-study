@@ -200,3 +200,104 @@ module.exports = {
 };
 ```
 
+
+
+### import vs require
+
+require와 import는 모듈 키워드. 외부 파일이나 라이브러리를 불러올 때 사용
+
+| require                                                      | import                        |
+| ------------------------------------------------------------ | ----------------------------- |
+| NodeJS에서 사용되고 있는 CommonJS 키워드<br />(CommonJS: NodeJS에서 JavaScript In 모듈을 캡슐화하는 데 사용하는 표준) | ES2015에서 새로 도입된 키워드 |
+| 동기식                                                       | 비동기식                      |
+| 프로그램 내부 어디에서나 호출                                | 파일의 시작 부분              |
+
+💡 **NodeJS로 웹팩을 실행하는데 Node는 CommonJS를 지원**
+
+import를 쓰면 에러가 발생하지만 바벨이 ES 문법을 CommonJS 문법으로 변경해준다.(import -> require)
+
+
+
+### 리액트 반복문(map)
+
+`map()` 메서드는 배열 내의 모든 요소 각각에 대하여 주어진 함수를 호출한 결과를 모아 새로운 배열을 반환
+
+리액트는 key를 보고 같은 컴포넌트인지 아닌지 판단
+
+**⚠ key를 map의 index로 사용하지 말 것**
+
+➡ React는 key를 통해 기존 트리와 이후 트리의 자식들이 일치하는지 확인
+인덱스를 key로 사용하면, 항목의 순서가 바뀌었을 때 key도 바뀐다.
+
+
+
+### 컴포넌트 분리
+
+**장점**
+
+- 가독성
+- 재사용성
+- 성능 최적화
+
+
+
+### props (properties)
+
+어떤 값을 컴포넌트에게 전달해줘야 할 때 사용 (부모 컴포넌트 ➡ 자식 컴포넌트)
+
+
+
+리액트 주석 `{/*  */}`
+
+
+
+### 메서드 바인딩
+
+#### Arrow function
+
+**Arrow function의 this는 항상 그것을 둘러싼 enclosing scope에서 상속받는다.**
+
+render 메소드에서 onClickButton 함수를 호출했을 때 함수의 this가 **window**나 **undefined**이 되는 문제
+
+window나 undefined에는 setState 메소드가 없기 때문에 에러가 발생
+
+🚨`TypeError: Cnnot read property 'setState' of undefined`
+
+Solution: arrow function은 this를 자동으로 bind
+
+[참고: 컴포넌트 이벤트 연결(바인딩)](https://www.zerocho.com/category/React/post/578232e7a479306028f43393)
+
+
+
+### 리액트 불변성
+
+> 불변성은 어떤 값을 직접적으로 변경하지 않고 새로운 값을 만들어내는 것입니다. 필요한 값을 변형해서 사용하고 싶다면 어떤 값의 사본을 만들어서 사용해야 합니다.
+> React에서는 값을 비교할 때는 얕은 비교를 실행하여 성능 최적화를 만들어내게 됩니다. 
+> 출처: https://webigotr.tistory.com/293 [diligent web hacker]
+
+리액트에서 값이 바뀌었는지 확인하는 방법은 참조하는 값이 변경되었는지 비교
+
+```
+// state가 가르키고 있는 객체의 참조값은 동일 (렌더링X)
+<button onClick={() => {
+	state.count += 1; 
+	setState(state); 
+	}} 
+>+1</button>
+
+
+// 콜백함수에 의해 새로운 객체가 리턴 (렌더링O)
+<button onClick={() => { 
+	setState((prevState) => ({ count: prevState.count + 1 })); 
+}}>+1</button>
+```
+
+
+
+### React Devtools
+
+**크롬 웹스토어 - React Developer Tools**
+
+개발자 도구 - Components
+
+리액트로 개발된 사이트 확인할 수 있음. state, props 값 

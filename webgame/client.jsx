@@ -1,7 +1,6 @@
-const React = require('react');
-const ReactDOM = require('react-dom');
+import React from 'react';
+import ReactDOM from 'react-dom';
 
-// const Gugudan = require('./lecture/Gugudan');
-const WordRelay = require('./lecture/WordRelay');
+import NumberBaseball from './lecture/NumberBaseball';
 
-ReactDOM.render(<WordRelay />, document.querySelector('#root'));
+ReactDOM.render(<NumberBaseball />, document.querySelector('#root'));
