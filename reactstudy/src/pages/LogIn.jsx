@@ -1,6 +1,8 @@
 import React, { useCallback } from 'react';
 import useInput from '@hooks/useInput';
 import Google from '@components/Google';
+import Kakao from '@components/Kakao';
+import { Header, Form, Label, MyInput, MyButton } from '@pages/styles';
 
 const LogIn = () => {
   const [email, onChangeEmail] = useInput('');
@@ -12,25 +14,26 @@ const LogIn = () => {
 
   return (
     <>
-      <header>LogIn</header>
+      <Header>로그인</Header>
       <main>
         <section>
-          <form onSubmit={onSubmit}>
-            <label id="email-label">
-              <span>이메일</span>
-              <div>
-                <input type="text" name="email" value={email} onChange={onChangeEmail} />
-              </div>
-            </label>
-            <label id="password-label">
-              <span>비밀번호</span>
-              <div>
-                <input type="password" name="password" value={password} onChange={onChangePassword} />
-              </div>
-            </label>
-            <button type="sumbit">로그인</button>
-          </form>
-          <Google />
+          <Form onSubmit={onSubmit}>
+            <Label id="email-label">
+              <MyInput type="text" name="email" value={email} onChange={onChangeEmail} placeholder="이메일 입력" />
+            </Label>
+            <Label id="password-label">
+              <MyInput
+                type="password"
+                name="password"
+                value={password}
+                onChange={onChangePassword}
+                placeholder="비밀번호 입력"
+              />
+            </Label>
+            <MyButton type="sumbit">로그인</MyButton>
+            <Google />
+            <Kakao />
+          </Form>
         </section>
       </main>
     </>

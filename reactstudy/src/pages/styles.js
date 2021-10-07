@@ -27,12 +27,13 @@ export const MyInput = styled(Input)`
   padding: 0.8em;
   transition: none;
   margin-bottom: ${(props) => (props.value ? '30px' : '8px')};
-  border: ${(props) => (props.value ? '' : '1px solid red')};
 `;
-
+// border: ${(props) => (props.value ? '' : '1px solid red')};
 export const MyInputPassword = styled(Input.Password)`
   margin: 8px;
   padding: 0.8em;
+  transition: none;
+  margin-bottom: ${(props) => (props.value ? '30px' : '8px')};
 `;
 
 export const Error = styled.div`
@@ -46,8 +47,4 @@ export const MyButton = styled(Button)`
   background-color: #3d5afe;
   margin: 8px;
   width: 100%;
-  &&& {
-    background: red;
-    border: none;
-  }
 `;
