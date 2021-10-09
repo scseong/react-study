@@ -16,6 +16,7 @@ const SignUp = () => {
 
   const [nickname, setNickname] = useState('');
   const [phone, setPhone] = useState('');
+  const [phoneAuth, setPhoneAuth] = useState('');
   const [signUpError, setSignUpError] = useState('');
   const [signUpSuccess, setSignUpSuccess] = useState(false);
 
@@ -54,6 +55,10 @@ const SignUp = () => {
     setPhone(e.target.value);
   }, []);
 
+  const onChangePhoneAuth = useCallback((e) => {
+    setPhoneAuth(e.target.value);
+  }, []);
+
   const onSubmit = useCallback(
     (e) => {
       e.preventDefault();
@@ -61,7 +66,7 @@ const SignUp = () => {
         setSignUpSuccess(false);
         setSignUpError('');
         axios
-          .post('http://localhost:8000/accounts/signup/', { email, password })
+          .post('/accounts/signup/', { user_name: nickname, nickname, email, phone_number: phone, password })
           .then((response) => {
             console.log(response);
             setSignUpSuccess(true);
@@ -72,7 +77,25 @@ const SignUp = () => {
           });
       }
     },
-    [email, password, mismatchError],
+    [email, phone, password, mismatchError, signUpSuccess, signUpError],
+  );
+
+  const onClickPhoneAuth = useCallback(
+    (e) => {
+      axios
+        .post('/accounts/phone_verify_request/', { phone_number: phone }, { withCredentials: true })
+        .then((response) => console.log(response));
+    },
+    [phone],
+  );
+
+  const onClickPhoneAuthCheck = useCallback(
+    (e) => {
+      axios
+        .post('accounts/phone_verify/', { phone_number: phone, otp: phoneAuth }, { withCredentials: true })
+        .then((response) => console.log(response));
+    },
+    [phone, phoneAuth],
   );
 
   useEffect(() => {
@@ -158,7 +181,17 @@ const SignUp = () => {
                   required
                 />
               </div>
-              <Button>인증번호</Button>
+              <Button onClick={onClickPhoneAuth}>인증번호</Button>
+              <MyInput
+                type="number"
+                id="phone-auth"
+                name="phone-auth"
+                value={phoneAuth}
+                onChange={onChangePhoneAuth}
+                placeholder="인증번호"
+                required
+              />
+              <Button onClick={onClickPhoneAuthCheck}>인증확인</Button>
             </label>
             <MyButton htmlType="submit" type="primary" size="large">
               회원가입
