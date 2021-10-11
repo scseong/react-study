@@ -31,6 +31,10 @@ module.exports = {
           plugins: ['react-refresh/babel'],
         },
       },
+      {
+        test: /\.css?$/,
+        use: ['style-loader', 'css-loader'],
+      },
     ],
   },
   plugins: [new RefreshWebpackPlugin()],

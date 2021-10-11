@@ -301,3 +301,79 @@ Solution: arrow function은 this를 자동으로 bind
 개발자 도구 - Components
 
 리액트로 개발된 사이트 확인할 수 있음. state, props 값 
+
+state, props가 변경되었을 때 렌더링이 일어남
+
+Highlight Updates 체크하면 렌더링 될때마다 효과
+
+Devtool을 이용해서 렌더링되는 부분을 확인하고 최적화하는 과정이 필요
+
+
+
+### React.memo
+
+성능 개선을 위한 도구
+
+컴퍼넌트를 렌더링하고 결과를 메모이징(Memoizing)하고 다음 렌더링이 일어날 때 `props`가 같다면 메모이징된 내용을 재사용
+
+**[React.memo - 리액트 공식 문서](https://ko.reactjs.org/docs/react-api.html#reactpurecomponent)**
+
+**[React.memo() 현명하게 사용하기](https://ui.toast.com/weekly-pick/ko_20190731)**
+
+
+
+### props와 state 연결하기
+
+props는 자식 컴포넌트에서 직접 변경 불가
+
+바꿀 경우에는 state에 넣어서 사용
+
+
+
+### React 조건문
+
+JSX 문법에서 for, if 사용 불가
+
+false, undefined, null은 jsx에서 태그없음을 의미
+
+리액트에서 조건문은 삼항 연산자 이용
+
+```jsx
+{result.length === 0 ? null : (
+    <div>평균 시간: {result.length.reduce((a, c) => a + c) / result.length}ms
+    </div>
+)}
+```
+
+가독성을 위해 함수로 작성해서 사용하기도 함 (단, 새로운 컴포넌트로 작성하는 것을 권장)
+
+
+
+### (+) setTImeout
+
+`setTimeout()` 타이머가 만료된 뒤 함수나 지정된 코드를 실행하는 타이머를 설정합니다.
+
+setTimeout 함수가 실행되면서 setState를 호출하기때문에 초기화 필요
+
+setTimeout 초기화 
+
+- timeout 선언
+- timeout = setTImeout() // timeout 변수에 setTimeout() 초기화
+- clearTimeout(timeout)
+
+`clearTImeout()` 이전에 설정된 타이머를 취소
+
+
+
+### useRef
+
+class component에서 this의 속성들을 hooks에서는 ref로 표현
+
+state는 변경되면 return 부분이 재실행(렌더링)되지만 useRef의 값이 변경되어도 렌더링되지 않음
+
+불필요한 렌더링을 막기 위해 값이 바뀌어도 렌더링이 되지 않아도 되는 값은 ref (화면에 영향을 미치지 않을때)
+
+> **인스턴스 변수와 같은 것이 있습니까?**
+> 네! [`useRef()`](https://ko.reactjs.org/docs/hooks-reference.html#useref) Hook은 DOM ref만을 위한 것이 아닙니다. “ref” 객체는 `현재` 프로퍼티가 변경할 수 있고 어떤 값이든 보유할 수 있는 일반 컨테이너입니다. 이는 class의 인스턴스 프로퍼티와 유사합니다.
+> https://ko.reactjs.org/docs/hooks-faq.html#is-there-something-like-instance-variables
+
