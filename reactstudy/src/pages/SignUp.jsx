@@ -1,6 +1,8 @@
 import React, { useState, useCallback, useRef, useEffect } from 'react';
 import { Header, Form, Error, MyButton, MyInput, MyInputPassword } from '@pages/styles';
 import axios from 'axios';
+import useInput from '@hooks/useInput';
+import AuthTimer from '@components/AuthTimer';
 
 import { Input, Button } from 'antd';
 
@@ -12,29 +14,27 @@ const SignUp = () => {
   const [passwordConfirm, setPasswordConfirm] = useState(true);
 
   const [passwordCheck, setPasswordCheck] = useState('');
-  const [mismatchError, setMissmatchError] = useState(false);
+  const [mismatchError, setMismatchError] = useState(false);
 
-  const [nickname, setNickname] = useState('');
-  const [phone, setPhone] = useState('');
-  const [phoneAuth, setPhoneAuth] = useState('');
-  const [signUpError, setSignUpError] = useState('');
+  const [nickname, onChangeNickname] = useInput('');
+  const [phone_number, onChangePhoneNumber] = useInput('');
+  const [otp, onChangeOtp] = useInput('');
+  const [timer, setTimer] = useState(false);
+  const [signUpError, setSignUpError] = useState({});
   const [signUpSuccess, setSignUpSuccess] = useState(false);
 
   const test = useRef();
 
-  const onChangeEmail = useCallback(
-    (e) => {
-      setEmail(e.target.value);
-      setEmailConfirm(!e.target.value);
-    },
-    [email],
-  );
+  const onChangeEmail = useCallback((e) => {
+    setEmail(e.target.value);
+    setEmailConfirm(!e.target.value);
+  }, []);
 
   const onChangePassword = useCallback(
     (e) => {
       setPassword(e.target.value);
       setPasswordConfirm(!e.target.value);
-      setMissmatchError(e.target.value === passwordCheck);
+      setMismatchError(e.target.value !== passwordCheck);
     },
     [passwordCheck],
   );
@@ -42,60 +42,51 @@ const SignUp = () => {
   const onChangePasswordCheck = useCallback(
     (e) => {
       setPasswordCheck(e.target.value);
-      setMissmatchError(e.target.value !== password);
+      setMismatchError(e.target.value !== password);
     },
     [password],
   );
-
-  const onChangeNickname = useCallback((e) => {
-    setNickname(e.target.value);
-  }, []);
-
-  const onChangePhone = useCallback((e) => {
-    setPhone(e.target.value);
-  }, []);
-
-  const onChangePhoneAuth = useCallback((e) => {
-    setPhoneAuth(e.target.value);
-  }, []);
 
   const onSubmit = useCallback(
     (e) => {
       e.preventDefault();
       if (!mismatchError) {
         setSignUpSuccess(false);
-        setSignUpError('');
+        setSignUpError({});
         axios
-          .post('/accounts/signup/', { user_name: nickname, nickname, email, phone_number: phone, password })
+          .post('/accounts/signup/', { user_name: nickname, nickname, email, phone_number, password })
           .then((response) => {
             console.log(response);
             setSignUpSuccess(true);
           })
           .catch((err) => {
-            console.log(err);
-            // setSignUpError(err);
+            console.log(err.response.data);
+            setSignUpError(err.response.data);
           });
       }
     },
-    [email, phone, password, mismatchError, signUpSuccess, signUpError],
+    [email, phone_number, nickname, password, mismatchError],
   );
 
   const onClickPhoneAuth = useCallback(
     (e) => {
-      axios
-        .post('/accounts/phone_verify_request/', { phone_number: phone }, { withCredentials: true })
-        .then((response) => console.log(response));
+      setTimer(false);
+      axios.post('/accounts/phone_verify_request/', { phone_number }, { withCredentials: true }).then((response) => {
+        console.log(response);
+        setTimer(true);
+      });
     },
-    [phone],
+    [phone_number],
   );
 
   const onClickPhoneAuthCheck = useCallback(
     (e) => {
-      axios
-        .post('accounts/phone_verify/', { phone_number: phone, otp: phoneAuth }, { withCredentials: true })
-        .then((response) => console.log(response));
+      axios.post('accounts/phone_verify/', { phone_number, otp }, { withCredentials: true }).then((response) => {
+        console.log(response);
+        setTimer(false);
+      });
     },
-    [phone, phoneAuth],
+    [phone_number, otp],
   );
 
   useEffect(() => {
@@ -120,7 +111,6 @@ const SignUp = () => {
                   placeholder="이메일 입력"
                   required
                   ref={test}
-                  autoComplete="off"
                 />
                 {emailConfirm && <Error>이메일을 입력해주세요</Error>}
               </div>
@@ -175,29 +165,34 @@ const SignUp = () => {
                   type="text"
                   id="phone"
                   name="phone"
-                  value={phone}
-                  onChange={onChangePhone}
+                  value={phone_number}
+                  onChange={onChangePhoneNumber}
                   placeholder="휴대폰 번호(숫자만 입력)"
                   required
                 />
               </div>
               <Button onClick={onClickPhoneAuth}>인증번호</Button>
-              <MyInput
-                type="number"
-                id="phone-auth"
-                name="phone-auth"
-                value={phoneAuth}
-                onChange={onChangePhoneAuth}
-                placeholder="인증번호"
-                required
-              />
+            </label>
+            <label id="phone-auth-label">
+              <div>
+                <MyInput
+                  type="number"
+                  id="phone-auth"
+                  name="phone-auth"
+                  value={otp}
+                  onChange={onChangeOtp}
+                  placeholder="인증번호"
+                  required
+                />
+                {timer && <AuthTimer />}
+              </div>
               <Button onClick={onClickPhoneAuthCheck}>인증확인</Button>
             </label>
             <MyButton htmlType="submit" type="primary" size="large">
               회원가입
             </MyButton>
+            {signUpError && Object.entries(signUpError).map((k) => <Error>{k[1][0]}</Error>)}
           </Form>
-          {signUpError && <Error>{signUpError}</Error>}
         </section>
       </main>
     </>

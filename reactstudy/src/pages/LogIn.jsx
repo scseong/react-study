@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import useInput from '@hooks/useInput';
-import Google from '@components/Google';
-import Kakao from '@components/Kakao';
+// import Google from '@components/Google';
+// import Kakao from '@components/Kakao';
 import { Header, Form, Label, MyInput, MyButton } from '@pages/styles';
 
 const LogIn = () => {
@@ -31,8 +31,8 @@ const LogIn = () => {
               />
             </Label>
             <MyButton type="sumbit">로그인</MyButton>
-            <Google />
-            <Kakao />
+            {/* <Google />
+            <Kakao /> */}
           </Form>
         </section>
       </main>
