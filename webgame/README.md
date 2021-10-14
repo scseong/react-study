@@ -1,3 +1,5 @@
+
+
 # 웹 게임을 만들며 배우는 React
 
 ## 학습내용
@@ -376,4 +378,38 @@ state는 변경되면 return 부분이 재실행(렌더링)되지만 useRef의 �
 > **인스턴스 변수와 같은 것이 있습니까?**
 > 네! [`useRef()`](https://ko.reactjs.org/docs/hooks-reference.html#useref) Hook은 DOM ref만을 위한 것이 아닙니다. “ref” 객체는 `현재` 프로퍼티가 변경할 수 있고 어떤 값이든 보유할 수 있는 일반 컨테이너입니다. 이는 class의 인스턴스 프로퍼티와 유사합니다.
 > https://ko.reactjs.org/docs/hooks-faq.html#is-there-something-like-instance-variables
+
+
+
+### useEffect
+
+> *Effect Hook*을 사용하면 함수 컴포넌트에서 side effect를 수행할 수 있습니다.
+> 데이터 가져오기, 구독(subscription) 설정하기, 수동으로 React 컴포넌트의 DOM을 수정하는 것까지 이 모든 것이 side effects입니다. 
+> https://ko.reactjs.org/docs/hooks-effect.html
+
+Hooks에 라이프 사이클은 없지만 흉내낼 수 있다.
+
+```jsx
+// componentDidMount, componentDidUpdate 역할
+useEffect(() => {
+    ...
+	return() => {	// componentWillUnmount 역할
+        
+    }
+}, [])	// 배열에 넣은 값이 변경되면 useEffect 실행
+```
+
+함수 컴포넌트는 렌더링되면 함수 내부 코드가 다시 실행 -> useEffect 실행
+
+리렌더링된 이후에 [] 배열 안의 값이 이전 렌더링 값과 비교하여 useEffect 실행 결정
+
+
+
+![undefined](https://cdn.filestackcontent.com/ApNH7030SAG1wAycdj3H)
+
+
+
+useEffect를 여러번 사용가능
+
+(커스텀 훅으로 만들어 다른 컴포넌트에서 재사용)
 
