@@ -318,6 +318,8 @@ Devtool을 이용해서 렌더링되는 부분을 확인하고 최적화하는 �
 
 컴퍼넌트를 렌더링하고 결과를 메모이징(Memoizing)하고 다음 렌더링이 일어날 때 `props`가 같다면 메모이징된 내용을 재사용
 
+가장 하위 컴포넌트에 권장 - 데이터가 없이 화면만 담당하는 경우
+
 **[React.memo - 리액트 공식 문서](https://ko.reactjs.org/docs/react-api.html#reactpurecomponent)**
 
 **[React.memo() 현명하게 사용하기](https://ui.toast.com/weekly-pick/ko_20190731)**
@@ -412,4 +414,32 @@ useEffect(() => {
 useEffect를 여러번 사용가능
 
 (커스텀 훅으로 만들어 다른 컴포넌트에서 재사용)
+
+
+
+### useMemo
+
+[메모이제이션된](https://ko.wikipedia.org/wiki/메모이제이션) 값을 반환
+
+계산량이 많은 함수는 반복 실행된다면 성능 문제 발생 -> 불필요한 렌더링을 막기 위해 사용
+
+
+
+### useCallback
+
+[메모이제이션된](https://ko.wikipedia.org/wiki/메모이제이션) 콜백을 반환
+
+**자식 컴포넌트에 props로 함수를 전달할 때** 필수로 사용
+
+useEffect와 같이 dependency가 변경되면 실행
+
+단, useCallback 내에서 state를 사용할 때는 주의. 변경된 값이 반영되지 않고 적용될 수 있음
+
+
+
+**useMemo vs useCallback**
+
+useMemo는 값을 기억, useCallback은 함수 자체를 기억
+
+
 
