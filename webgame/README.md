@@ -443,3 +443,46 @@ useMemo는 값을 기억, useCallback은 함수 자체를 기억
 
 
 
+### useReducer
+
+react에서 redux 핵심부분을 도입
+
+소규모 앱에서는 redux를 사용할 필요없이 useReducer + Context 조합으로 사용
+
+규모가 있는 앱에서는 **비동기 처리**를 위해 Redux를 사용해야 함
+
+
+
+useState를 대체해 사용 가능한 **상태 업데이트 로직 분리 hooks**
+
+state 개수가 많아지면 관리와 props 전달이 어렵기 때문에 useReducer를 사용하여 하나의 state와 setState로 관리할 수 있음
+
+
+
+`const [state, dispatch] = useReducer(reducer, initialArg, init);`
+
+state: 컴포넌트에서 사용하는 상태
+
+dispatch:  액션을 발생시키는 함수
+
+reducer: 현재 상태와 액션 객체를 파라미터로 받아와서 새로운 상태를 반환
+
+initialArg:  초기 state 설정
+
+![React useReducer()](https://dmitripavlutin.com/d730963db46908eaa6113c3e18a5472f/reducer-4.svg)
+
+action의 종류가 많으면 switch문으로 type별로 구분
+
+기존 state를 직접 변경하지 않고 새로운 객체를 만들어서 바뀐 값만 반영해야 함 (불변성) - 얕은 복사
+
+(+) immer 라이브러리를 사용해 가독성 문제 해결 가능
+
+
+
+dispatch가 state를 바꾸는 것은 **비동기**
+
+
+
+**정리) state를 하나로 모아두고 action을 통해서만 state를 변경**
+
+**dispatch하면 action이 실행 -> reducer에 정의한대로 state를 변경**
